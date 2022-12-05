@@ -7,6 +7,9 @@ from typing import List
 class SubjectInterface(ABC):
     """Subject interface declare methods for managing observers from the client object"""
 
+    def __init__(self):
+        self.state = None
+
     @abstractmethod
     def attach(self, observer: ObserverInterface) -> None:
         """Attach an observer to the concrete_subject"""
@@ -27,7 +30,7 @@ class ObserverInterface(ABC):
     """ObserverInterface interface declare the update method, used by subjects"""
 
     @abstractmethod
-    def update(self, subject: SubjectInterface) -> None:
+    def update(self, concrete_subject: SubjectInterface) -> None:
         """Receive update from concrete_subject"""
         pass
 
@@ -36,7 +39,7 @@ class ObserverInterface(ABC):
 class ConcreteSubjectInterface(SubjectInterface):
     """Concrete concrete_subject stores state of interest to ConcreteObserver objects"""
 
-    _state: int = None
+    state: int = None
     """For the sake of simplicity, the concrete_subject's state, essential to all subscribers, is stored in this variable"""
 
     _observers: List[ObserverInterface] = []
@@ -59,9 +62,9 @@ class ConcreteSubjectInterface(SubjectInterface):
 
     def some_business_logic(self) -> None:
         print("\nSubject: I'm doing something important.")
-        self._state = randrange(0, 10)
+        self.state = randrange(0, 10)
 
-        print(f"Subject: My state has just changed to: {self._state}")
+        print(f"Subject: My state has just changed to: {self.state}")
         self.notify()
 
 # create concrete observer A
@@ -71,9 +74,9 @@ class ConcreteObserverAInterface(ObserverInterface):
     def update(self, concrete_subject: SubjectInterface) -> None:
         """
 
-        :type concrete_subject: SubjectInterface
+        type concrete_subject: SubjectInterface
         """
-        if concrete_subject._state < 3:
+        if concrete_subject.state < 3:
             print("ConcreteObserverAInterface: Reacted to the event")
 
 
@@ -81,8 +84,8 @@ class ConcreteObserverAInterface(ObserverInterface):
 class ConcreteObserverBInterface(ObserverInterface):
     """Concrete ObserverInterface B reacts to the updates issued by the Concrete Subject"""
 
-    def update(self, subject: SubjectInterface) -> None:
-        if subject._state == 0 or subject._state >= 2:
+    def update(self, concrete_subject: SubjectInterface) -> None:
+        if concrete_subject.state == 0 or concrete_subject.state >= 2:
             print("ConcreteObserverBInterface: Reacted to the event")
 
 
