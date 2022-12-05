@@ -3,18 +3,18 @@ from abc import ABC, abstractmethod
 from random import randrange
 from typing import List
 
-# create subject interface
-class Subject(ABC):
+# create concrete_subject interface
+class SubjectInterface(ABC):
     """Subject interface declare methods for managing observers from the client object"""
 
     @abstractmethod
-    def attach(self, observer: Observer) -> None:
-        """Attach an observer to the subject"""
+    def attach(self, observer: ObserverInterface) -> None:
+        """Attach an observer to the concrete_subject"""
         pass
 
     @abstractmethod
-    def detach(self, observer: Observer) -> None:
-        """Detach an observer from the subject"""
+    def detach(self, observer: ObserverInterface) -> None:
+        """Detach an observer from the concrete_subject"""
         pass
 
     @abstractmethod
@@ -23,32 +23,32 @@ class Subject(ABC):
         pass
 
 # create observer interface
-class Observer(ABC):
-    """Observer interface declare the update method, used by subjects"""
+class ObserverInterface(ABC):
+    """ObserverInterface interface declare the update method, used by subjects"""
 
     @abstractmethod
-    def update(self, subject: Subject) -> None:
-        """Receive update from subject"""
+    def update(self, subject: SubjectInterface) -> None:
+        """Receive update from concrete_subject"""
         pass
 
 
-# create concrete subject
-class ConcreteSubject(Subject):
-    """Concrete subject stores state of interest to ConcreteObserver objects"""
+# create concrete concrete_subject
+class ConcreteSubjectInterface(SubjectInterface):
+    """Concrete concrete_subject stores state of interest to ConcreteObserver objects"""
 
     _state: int = None
-    """For the sake of simplicity, the subject's state, essential to all subscribers, is stored in this variable"""
+    """For the sake of simplicity, the concrete_subject's state, essential to all subscribers, is stored in this variable"""
 
-    _observers: List[Observer] = []
+    _observers: List[ObserverInterface] = []
     """List of subscribers. In real life, the list of subscribers can be stored more comprehensively (categorized by event type, etc.)"""
 
-    def attach(self, observer: Observer) -> None:
-        """Attach an observer to the subject"""
+    def attach(self, observer: ObserverInterface) -> None:
+        """Attach an observer to the concrete_subject"""
         print("Subject: Attached an observer.")
         self._observers.append(observer)
 
-    def detach(self, observer: Observer) -> None:
-        """Detach an observer from the subject"""
+    def detach(self, observer: ObserverInterface) -> None:
+        """Detach an observer from the concrete_subject"""
         self._observers.remove(observer)
 
     def notify(self) -> None:
@@ -65,32 +65,36 @@ class ConcreteSubject(Subject):
         self.notify()
 
 # create concrete observer A
-class ConcreteObserverA(Observer):
-    """Concrete Observer A reacts to the updates issued by the Concrete Subject"""
+class ConcreteObserverAInterface(ObserverInterface):
+    """Concrete ObserverInterface A reacts to the updates issued by the Concrete Subject"""
 
-    def update(self, subject: Subject) -> None:
-        if subject._state < 3:
-            print("ConcreteObserverA: Reacted to the event")
+    def update(self, concrete_subject: SubjectInterface) -> None:
+        """
+
+        :type concrete_subject: SubjectInterface
+        """
+        if concrete_subject._state < 3:
+            print("ConcreteObserverAInterface: Reacted to the event")
 
 
 # create concrete observer B
-class ConcreteObserverB(Observer):
-    """Concrete Observer B reacts to the updates issued by the Concrete Subject"""
+class ConcreteObserverBInterface(ObserverInterface):
+    """Concrete ObserverInterface B reacts to the updates issued by the Concrete Subject"""
 
-    def update(self, subject: Subject) -> None:
+    def update(self, subject: SubjectInterface) -> None:
         if subject._state == 0 or subject._state >= 2:
-            print("ConcreteObserverB: Reacted to the event")
+            print("ConcreteObserverBInterface: Reacted to the event")
 
 
 if __name__ == "__main__":
     # The client code.
 
-    subject = ConcreteSubject()
+    subject = ConcreteSubjectInterface()
 
-    observer_a = ConcreteObserverA()
+    observer_a = ConcreteObserverAInterface()
     subject.attach(observer_a)
 
-    observer_b = ConcreteObserverB()
+    observer_b = ConcreteObserverBInterface()
     subject.attach(observer_b)
 
     subject.some_business_logic()
@@ -99,3 +103,4 @@ if __name__ == "__main__":
     subject.detach(observer_a)
 
     subject.some_business_logic()
+
