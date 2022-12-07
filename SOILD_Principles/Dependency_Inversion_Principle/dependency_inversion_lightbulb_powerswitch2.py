@@ -14,7 +14,7 @@ to turn on or off depending on the state of the switch.
 """
 
 from abc import ABC, abstractmethod
-class Switchable(ABC):
+class ISwitchable(ABC):
     @abstractmethod
     def turn_on(self) -> None:
         pass
@@ -25,9 +25,9 @@ class Switchable(ABC):
 
 
 
-class LightBulb(Switchable):
+class LightBulb(ISwitchable):
       """
-        The LightBulb class is a concrete implementation of the Switchable interface.
+        The LightBulb class is a concrete implementation of the ISwitchable interface.
       """
       @staticmethod
       def turn_on() -> None:
@@ -40,9 +40,9 @@ class LightBulb(Switchable):
 
 class PowerSwitch:
         """
-            The PowerSwitch class is a concrete implementation of the Switchable interface.
+            The PowerSwitch class is a concrete implementation of the ISwitchable interface.
         """
-        def __init__(self, switchable_instance: Switchable) -> None:
+        def __init__(self, switchable_instance: ISwitchable) -> None:
             self.switchable_obj = switchable_instance
             self.on = False
 
@@ -54,7 +54,7 @@ class PowerSwitch:
                 self.switchable_obj.turn_on()
                 self.on = True
 
-class Fan (Switchable):
+class Fan (ISwitchable):
     @staticmethod
     def turn_on() -> None:
         print("Fan: Fan turned on...")

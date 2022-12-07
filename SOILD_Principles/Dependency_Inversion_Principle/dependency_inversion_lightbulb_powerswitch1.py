@@ -2,7 +2,7 @@ from __future__ import annotations
 
 class LightBulb:
       """
-        The LightBulb class is a concrete implementation of the Switchable interface.
+        The LightBulb class is a concrete implementation of the ISwitchable interface.
       """
       @staticmethod
       def turn_on() -> None:
@@ -15,7 +15,7 @@ class LightBulb:
 
 class PowerSwitch:
         """
-            The PowerSwitch class is a concrete implementation of the Switchable interface.
+            The PowerSwitch class is a concrete implementation of the ISwitchable interface.
         """
         def __init__(self, light_bulb: LightBulb) -> None:
             self.light_bulb = light_bulb
