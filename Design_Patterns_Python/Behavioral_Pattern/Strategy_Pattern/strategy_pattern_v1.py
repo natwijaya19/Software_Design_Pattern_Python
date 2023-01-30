@@ -73,9 +73,9 @@ def main():
     b = int(input("Enter second number:"))
 
     print("\nPlease select from the following options:")
-    print("Addition : 1")
-    print("Subtraction : 2")
-    print("Multiplication : 3")
+    print("Addition\t : 1")
+    print("Subtraction\t : 2")
+    print("Multiplication\t : 3")
     selected_strategy: int = int(input("Enter strategy number:"))
 
     context = Context()
@@ -83,13 +83,16 @@ def main():
         concreteStrategyAdd = ConcreteStrategyAdd()
         context.set_strategy(concreteStrategyAdd)
 
-    if selected_strategy == 2:
+    elif  selected_strategy == 2:
         concreteStrategySubtract = ConcreteStrategySubtract()
         context.set_strategy(concreteStrategySubtract)
 
-    if selected_strategy == 3:
+    elif selected_strategy == 3:
         concreteStrategyMultiply = ConcreteStrategyMultiply()
         context.set_strategy(concreteStrategyMultiply)
+
+    else:
+        print("There no available execution for {}", selected_strategy)
 
     client_result = context.execute_strategy(a, b)
     print(client_result)
