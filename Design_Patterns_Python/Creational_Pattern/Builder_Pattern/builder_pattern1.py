@@ -31,6 +31,8 @@ class Builder(ABC):
     @abstractmethod
     def produce_part_c(self) -> None:
         pass
+
+
 class ConcreteBuilder1(Builder):
     """
     The Concrete Builder classes follow the Builder interface and provide specific
@@ -81,6 +83,7 @@ class ConcreteBuilder1(Builder):
     def produce_part_c(self) -> None:
         self._product.add("PartC1")
 
+
 class Product1:
     """
     It makes sense to use the Builder pattern only when your products are quite
@@ -113,7 +116,7 @@ class Director:
         self._builder = None
 
     @property
-    def builder(self)-> Builder:
+    def builder(self) -> Builder:
         return self._builder
 
     @builder.setter
@@ -128,18 +131,15 @@ class Director:
         """
         self._builder = builder_instance
 
-
     """
     The Director can construct several product variations using the same
     building steps.
     """
 
-    def build_minimal_viable_product(self)-> None:
+    def build_minimal_viable_product(self) -> None:
         self.builder.produce_part_a()
 
-    def build_full_featured_product(self)-> None:
+    def build_full_featured_product(self) -> None:
         self.builder.produce_part_a()
         self.builder.produce_part_b()
         self.builder.produce_part_c()
-
-
